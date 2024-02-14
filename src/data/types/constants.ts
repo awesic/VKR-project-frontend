@@ -11,4 +11,4 @@ export const QUERY_KEY = {
     departments: "departments",
 };
 
-export const BACKEND_DOMAIN = import.meta.env.VITE_API_URL;
+export const BACKEND_DOMAIN = process.env.API;

@@ -1,1 +1,0 @@
-import{n as r,i as e,j as n,an as c,ao as u}from"./index-GvI2urAZ.js";const f=({allowedRoles:t})=>{var a;const o=r(),{data:s,isSuccess:i}=e();return i&&(t!=null&&t.includes((a=s==null?void 0:s.role)==null?void 0:a.toString().toLowerCase()))?n.jsx(c,{}):n.jsx(u,{to:"/login",state:{from:o}})};export{f as default};

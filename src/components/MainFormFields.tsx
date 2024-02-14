@@ -11,7 +11,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
 interface Props {
-    form: UseFormReturn<any, any, undefined>;
+    form: UseFormReturn<any, any, any>;
 }
 
 export const MainFormFields = ({ form }: Props) => {

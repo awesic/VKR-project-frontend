@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-// import notfound from "@/assets/images/notfound.jpg";
 import { Link } from "react-router-dom";
 
 import notfound from "@/assets/images/notfound.jpg";

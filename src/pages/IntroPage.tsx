@@ -1,8 +1,6 @@
-// import intro from "@/assets/images/intro.jpg";
+import intro from "@/assets/images/intro.jpg";
 import styled from "styled-components";
 import { Button, Container } from "react-bootstrap";
-
-const intro = require("@/assets/images/intro.jpg");
 
 const Styles = styled.div`
     .intro-page {

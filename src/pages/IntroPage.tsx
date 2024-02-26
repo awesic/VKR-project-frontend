@@ -1,4 +1,4 @@
-import intro from "../assets/intro.jpg";
+import intro from "@/assets/images/intro.jpg";
 import styled from "styled-components";
 import { Button, Container } from "react-bootstrap";
 

@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import notfound from "@/assets/notfound.jpg";
+import notfound from "@/assets/images/notfound.jpg";
 import { Link } from "react-router-dom";
 
 const PageNotFound = () => {

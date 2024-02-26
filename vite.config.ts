@@ -16,12 +16,12 @@ export default defineConfig({
             // asserts: "/src/asserts",
         },
     },
-    server: {
-        // host: true,
-        watch: {
-            usePolling: true,
-        },
-        strictPort: true,
-        // port: 80,
-    },
+    // server: {
+    //     // host: true,
+    //     watch: {
+    //         usePolling: true,
+    //     },
+    //     strictPort: true,
+    //     // port: 80,
+    // },
 });

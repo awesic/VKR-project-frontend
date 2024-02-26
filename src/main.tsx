@@ -6,7 +6,7 @@ import "@/global.css";
 import { App } from "./App";
 import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 
-if (process.env.NODE_ENV === "production") disableReactDevTools();
+if (import.meta.env.PROD) disableReactDevTools();
 
 const client = new QueryClient({
     defaultOptions: {

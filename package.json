@@ -44,6 +44,7 @@
         "tailwind-merge": "^2.1.0",
         "tailwindcss-animate": "^1.0.7",
         "vite": "^5.0.8",
+        "@vitejs/plugin-react": "^4.2.1",
         "zod": "^3.22.4"
     },
     "devDependencies": {
@@ -52,7 +53,6 @@
         "@types/react-dom": "^18.2.17",
         "@typescript-eslint/eslint-plugin": "^6.14.0",
         "@typescript-eslint/parser": "^6.14.0",
-        "@vitejs/plugin-react": "^4.2.1",
         "autoprefixer": "^10.4.16",
         "eslint": "^8.55.0",
         "eslint-plugin-react-hooks": "^4.6.0",

@@ -3,7 +3,7 @@ import { Form, FormLabel } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import CSRFToken from "@/components/CSRFToken";
-import DjangoCSRFToken from "django-react-csrftoken";
+// import DjangoCSRFToken from "django-react-csrftoken";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
@@ -65,7 +65,7 @@ const AdminSignupForm = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className={"min-w-[16rem] space-y-3 text-center"}>
                 <CSRFToken />
-                <DjangoCSRFToken />
+                {/* <DjangoCSRFToken /> */}
                 <FormLabel className={"text-start text-danger"}>
                     {error ? error.message : ""}
                 </FormLabel>

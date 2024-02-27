@@ -33,7 +33,6 @@
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
         "cmdk": "^0.2.0",
-        "django-react-csrftoken": "^1.0.4",
         "js-cookie": "^3.0.5",
         "lucide-react": "^0.295.0",
         "postcss": "^8.4.32",

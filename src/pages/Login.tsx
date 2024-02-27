@@ -3,6 +3,7 @@ import { Container, InputGroup } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Layout from "@/hocs/Layout";
 import CSRFToken from "@/components/CSRFToken";
+import DjangoCSRFToken from "django-react-csrftoken";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -74,7 +75,8 @@ const Login = () => {
                     <form
                         onSubmit={form.handleSubmit(handleSubmit)}
                         className={"space-y-3 mw-100 form-width text-center"}>
-                        <CSRFToken />
+                        {/* <CSRFToken /> */}
+                        <DjangoCSRFToken />
                         {isError && (
                             <FormLabel className={"text-start text-red-600"}>
                                 Неправильная почта или пароль!

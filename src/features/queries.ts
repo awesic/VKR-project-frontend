@@ -15,9 +15,9 @@ export const useRegisterQuery = () => {
             await queryClient.setQueryData([QUERY_KEY.user], data);
             navigate("/home");
         },
-        onError(error) {
-            error.message = "Аккаунт с этой почтой уже существует";
-        },
+        // onError(error) {
+        //     error.message = "Аккаунт с этой почтой уже существует";
+        // },
         onSettled: async () => {
             await queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY.user],
@@ -60,7 +60,7 @@ export const useGetUserInfo = () => {
         queryFn: () => api.getUserInfo(),
         staleTime: 1000 * 60 * 30,
         // gcTime: 1000 * 60 * 60 * 24,
-        retry: false,
+        // retry: false,
     });
 };
 

@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useGetUserInfo, useLoginQuery } from "@/features/queries";
+import Cookies from "js-cookie";
 
 const formSchema = z.object({
     email: z
@@ -58,6 +59,8 @@ const Login = () => {
     useEffect(() => {
         if (isSuccess) navigate(location.state?.from?.pathname || "/home");
     }, [isSuccess]);
+
+    console.log(Cookies.get("csrftoken"));
 
     return (
         <Layout title={"Вход"} content={"Страница входа"}>

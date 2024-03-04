@@ -24,10 +24,11 @@ const CSRFToken = () => {
         const fetchData = async () => {
             try {
                 await axiosPublic.get("/csrf_cookie");
-            } catch (err) {}
+            } catch (error) {}
         };
         fetchData();
         setCsrfToken(getCookie("csrftoken") as string);
+        console.log(csrfToken);
     }, []);
 
     return (

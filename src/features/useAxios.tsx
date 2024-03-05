@@ -1,6 +1,6 @@
 import { BACKEND_DOMAIN } from "@/data/types/constants";
 import axios from "axios";
-// import Cookie from "js-cookie";
+import Cookie from "js-cookie";
 
 export const axiosPublic = axios.create({
     baseURL: BACKEND_DOMAIN,
@@ -23,12 +23,17 @@ export const axiosPrivate = axios.create({
     withXSRFToken: true,
 });
 
-// axiosPrivate.interceptors.request.use(
-//     (config) => {
-//         config.headers["X-CSRFToken"] = Cookie.get("csrftoken");
-//         return config;
-//     },
-//     (error) => {
-//         return Promise.reject(error);
-//     }
-// );
+axiosPrivate.interceptors.request.use(
+    (config) => {
+        config.headers["X-CSRFToken"] = Cookie.get("csrftoken");
+        return config;
+    },
+    (error) => {
+        try {
+            axiosPublic.get("/csrf_cookie");
+        } catch (error) {
+            return Promise.reject(error);
+        }
+        return Promise.reject(error);
+    }
+);

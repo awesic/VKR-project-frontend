@@ -14,10 +14,13 @@ export const axiosPublic = axios.create({
 export const axiosPrivate = axios.create({
     baseURL: BACKEND_DOMAIN,
     headers: {
-        Accept: "application/json",
+        // Accept: "application/json",
         "Content-type": "multipart/form-data",
     },
     withCredentials: true,
+    xsrfHeaderName: "X-CSRFToken",
+    xsrfCookieName: "csrftoken",
+    withXSRFToken: true,
 });
 
 // axiosPrivate.interceptors.request.use(

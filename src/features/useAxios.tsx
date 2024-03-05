@@ -1,6 +1,6 @@
 import { BACKEND_DOMAIN } from "@/data/types/constants";
 import axios from "axios";
-import Cookie from "js-cookie";
+// import Cookie from "js-cookie";
 
 export const axiosPublic = axios.create({
     baseURL: BACKEND_DOMAIN,

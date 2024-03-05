@@ -25,7 +25,7 @@ export const axiosPrivate = axios.create({
 
 axiosPrivate.interceptors.request.use(
     (config) => {
-        config.headers["X-CSRFToken"] = Cookie.get("csrftoken");
+        // config.headers["X-CSRFToken"] = Cookie.get("csrftoken");
         return config;
     },
     (error) => {

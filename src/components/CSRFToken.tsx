@@ -29,6 +29,7 @@ const CSRFToken = () => {
         fetchData();
         setCsrfToken(getCookie("csrftoken") as string);
         console.log(csrfToken);
+        console.log(document.querySelector("[name=csrfmiddlewaretoken]"));
     }, []);
 
     return (

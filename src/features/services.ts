@@ -6,10 +6,10 @@ import {
     Teacher,
     User,
     TEmailParamsFields,
-    TStudentTokenFields,
-    TTeacherTokenFields,
-    TUserTokenFields,
-    TToken,
+    // TStudentTokenFields,
+    // TTeacherTokenFields,
+    // TUserTokenFields,
+    // TToken,
 } from "@/data/types/UsersTypes";
 
 const REGISTER_URL = "/auth/register/";
@@ -25,7 +25,7 @@ const INSTITUTE_URL = "/institute/";
 const DIRECTIONS_URL = "/directions/";
 const DEPARTMENTS_URL = "/departments/";
 const STATUSES_URL = "/status/";
-const TOKEN_URL = "/token/";
+// const TOKEN_URL = "/token/";
 const REFRESH_URL = "/token/refresh";
 const VERIFY_URL = "/token/verify";
 

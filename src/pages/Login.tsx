@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, InputGroup } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Layout from "@/hocs/Layout";
-import CSRFToken from "@/components/CSRFToken";
-// import DjangoCSRFToken from "django-react-csrftoken";
+// import CSRFToken from "@/components/CSRFToken";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,7 +18,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useGetUserInfo, useLoginQuery } from "@/features/queries";
-import Cookie from "js-cookie";
 
 const formSchema = z.object({
     email: z
@@ -60,8 +58,6 @@ const Login = () => {
         if (isSuccess) navigate(location.state?.from?.pathname || "/home");
     }, [isSuccess]);
 
-    console.log(Cookie.get("csrftoken"));
-
     return (
         <Layout title={"Вход"} content={"Страница входа"}>
             <Container
@@ -78,8 +74,7 @@ const Login = () => {
                     <form
                         onSubmit={form.handleSubmit(handleSubmit)}
                         className={"space-y-3 mw-100 form-width text-center"}>
-                        <CSRFToken />
-                        {/* <DjangoCSRFToken /> */}
+                        {/* <CSRFToken /> */}
                         {isError && (
                             <FormLabel className={"text-start text-red-600"}>
                                 Неправильная почта или пароль!

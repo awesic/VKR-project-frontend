@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Student } from "@/data/types/UsersTypes";
 import { TeachersSelect } from "@/components/students/PreferTeacherSelect";
 import { StatusCombobox } from "@/components/students/StatusCombobox";
-import CSRFToken from "@/components/CSRFToken";
+// import CSRFToken from "@/components/CSRFToken";
 import { useChangeStudentsThemeTeacherStatus } from "@/features/queries";
 import { Loader2 } from "lucide-react";
 
@@ -86,7 +86,7 @@ export const FQWTheme: FC<Props> = ({ user }) => {
                                 <DialogTitle>Изменить тему</DialogTitle>
                             </DialogHeader>
                             <div className="py-4 items-center">
-                                <CSRFToken />
+                                {/* <CSRFToken /> */}
                                 <Textarea
                                     autoFocus
                                     name="theme"

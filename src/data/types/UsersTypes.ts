@@ -1,3 +1,8 @@
+export type TToken = {
+    access: string;
+    refresh: string;
+};
+
 export type User = {
     id?: number;
     email: string;
@@ -46,3 +51,7 @@ export type TEmailParamsFields = {
         theme_approved?: boolean;
     };
 };
+
+export type TUserTokenFields = TToken & User
+export type TTeacherTokenFields = TToken & Teacher
+export type TStudentTokenFields = TToken & Student

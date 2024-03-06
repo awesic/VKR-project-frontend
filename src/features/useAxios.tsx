@@ -1,5 +1,6 @@
 import { BACKEND_DOMAIN } from "@/data/types/constants";
 import axios from "axios";
+import { api } from "@/features/services";
 // import Cookie from "js-cookie";
 
 export const axiosPublic = axios.create({
@@ -14,23 +15,22 @@ export const axiosPublic = axios.create({
 export const axiosPrivate = axios.create({
     baseURL: BACKEND_DOMAIN,
     headers: {
-        // Accept: "application/json",
+        Accept: "application/json",
         "Content-type": "multipart/form-data",
     },
     withCredentials: true,
-    xsrfHeaderName: "X-CSRFToken",
-    xsrfCookieName: "csrftoken",
-    withXSRFToken: true,
 });
 
 axiosPrivate.interceptors.request.use(
     (config) => {
-        // config.headers["X-CSRFToken"] = Cookie.get("csrftoken");
+        config.headers.Authorization = `Bearer ${localStorage.getItem(
+            "access"
+        )}`;
         return config;
     },
     (error) => {
         try {
-            axiosPublic.get("/csrf_cookie");
+            api.refreshToken;
         } catch (error) {
             return Promise.reject(error);
         }

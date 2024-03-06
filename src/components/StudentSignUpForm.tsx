@@ -26,8 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2, Check, ChevronsUpDown } from "lucide-react";
-import CSRFToken from "@/components/CSRFToken";
-// import DjangoCSRFToken from "django-react-csrftoken";
+// import CSRFToken from "@/components/CSRFToken";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ScrollArea } from "./ui/scroll-area";
 import {
@@ -112,8 +111,7 @@ const StudentSignupForm = () => {
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className={"min-w-min space-y-3 text-center"}>
-                <CSRFToken />
-                {/* <DjangoCSRFToken /> */}
+                {/* <CSRFToken /> */}
                 <FormLabel className={"text-start text-danger"}>
                     {error ? error.message : ""}
                 </FormLabel>

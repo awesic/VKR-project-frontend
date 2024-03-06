@@ -9,7 +9,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import CSRFToken from "@/components/CSRFToken";
+// import CSRFToken from "@/components/CSRFToken";
 
 const Navbars = () => {
     const { data: user } = useGetUserInfo();
@@ -70,7 +70,7 @@ const Navbars = () => {
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
-                                <CSRFToken />
+                                {/* <CSRFToken /> */}
                                 <DropdownMenuItem
                                     onClick={useLogOutQuery()}
                                     className="flex justify-center text-red-700 font-semibold">

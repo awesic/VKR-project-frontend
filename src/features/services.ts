@@ -6,12 +6,16 @@ import {
     Teacher,
     User,
     TEmailParamsFields,
+    TStudentTokenFields,
+    TTeacherTokenFields,
+    TUserTokenFields,
+    TToken,
 } from "@/data/types/UsersTypes";
 
-const REGISTER_URL = "/auth/register";
-const LOGIN_URL = "/auth/login";
-const LOGOUT_URL = "/auth/logout";
-const USER_PROFILE_URL = "/account/profile";
+const REGISTER_URL = "/auth/register/";
+const LOGIN_URL = "/auth/login/";
+const LOGOUT_URL = "/auth/logout/";
+const USER_PROFILE_URL = "/account/profile/";
 const CHANGE_STUDENTS_CRED_URL = "/student/change/";
 const STUDENTS_CHOOSE_LIST_URL = "/teacher/students-choose-list/";
 const TEACHER_STUDENT_URL = "/teacher/student";
@@ -20,7 +24,26 @@ const TEACHERS_URL = "/teachers/";
 const INSTITUTE_URL = "/institute/";
 const DIRECTIONS_URL = "/directions/";
 const DEPARTMENTS_URL = "/departments/";
-const STATUSES_URL = "/status";
+const STATUSES_URL = "/status/";
+const TOKEN_URL = "/token/";
+const REFRESH_URL = "/token/refresh";
+const VERIFY_URL = "/token/verify";
+
+const refreshToken = async () => {
+    const { data } = await axiosPublic.post(REFRESH_URL, {
+        refresh: localStorage.getItem("refresh"),
+    });
+    localStorage.setItem("access", data.access);
+    localStorage.setItem("refresh", data.refresh);
+    return data;
+};
+
+const verifyToken = async () => {
+    const { data } = await axiosPublic.post(VERIFY_URL, {
+        token: localStorage.getItem("access"),
+    });
+    return data;
+};
 
 const fetchStudents = async (): Promise<Student[]> => {
     return await axiosPrivate
@@ -29,23 +52,33 @@ const fetchStudents = async (): Promise<Student[]> => {
 };
 
 const register = async (userData: Student | Teacher | User) => {
-    return await axiosPrivate
+    const response = await axiosPrivate
         .post(REGISTER_URL, userData)
         .then((res) => res.data);
+
+    localStorage.setItem("access", response.access);
+    localStorage.setItem("refresh", response.refresh);
+
+    return response;
 };
 
 const login = async (userData: LoginFields) => {
     const response = await axiosPrivate.post(LOGIN_URL, userData);
+
+    localStorage.setItem("access", response.data.access);
+    localStorage.setItem("refresh", response.data.refresh);
 
     return response.data;
 };
 
 const logout = async () => {
     await axiosPrivate.post(LOGOUT_URL);
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
 };
 
 const getUserInfo = async () => {
-    return await axiosPublic.get(USER_PROFILE_URL).then((res) => res.data);
+    return await axiosPrivate.get(USER_PROFILE_URL).then((res) => res.data);
 };
 
 const changeStudentThemeTeacherStatus = async (params: {
@@ -59,15 +92,15 @@ const changeStudentThemeTeacherStatus = async (params: {
 };
 
 const fetchAllTeachers = async (): Promise<Teacher[]> => {
-    return await axiosPublic.get(TEACHERS_URL).then((res) => res.data);
+    return await axiosPrivate.get(TEACHERS_URL).then((res) => res.data);
 };
 
 const fetchAllStudents = async (): Promise<Student[]> => {
-    return await axiosPublic.get(STUDENTS_URL).then((res) => res.data);
+    return await axiosPrivate.get(STUDENTS_URL).then((res) => res.data);
 };
 
 const fetchStatuses = async (): Promise<TIdLabelFields[]> => {
-    return (await axiosPublic.get(STATUSES_URL)).data;
+    return (await axiosPrivate.get(STATUSES_URL)).data;
 };
 
 const approveStudent = async ({ studEmail, params }: TEmailParamsFields) => {
@@ -105,6 +138,8 @@ const fetchDepartments = async (): Promise<TIdLabelFields[]> => {
 };
 
 export const api = {
+    refreshToken,
+    verifyToken,
     fetchStudents,
     register,
     login,

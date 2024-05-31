@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { FC, useContext, useEffect, useRef, useState } from "react";
+// import { Switch } from "@/components/ui/switch";
+import { FC, useRef } from "react";
 // import { EditorContext } from "@/components/EditorContext";
-import { EditorContextType } from "@/data/types/editorTypes";
+// import { EditorContextType } from "@/data/types/editorTypes";
 import { Editor } from "@tinymce/tinymce-react";
 import { Student, Teacher } from "@/data/types/UsersTypes";
 import { Download } from "lucide-react";
@@ -64,7 +64,7 @@ const EditorModal: FC<Props> = ({ user, student }) => {
 
         const converted = await asBlob(htmlString, {
             orientation: "portrait",
-        });
+        }).then((value) => value as Blob);
         saveAs(
             converted,
             `${user.fio ? user.fio.replace(/\s/g, "_") : user.last_name}.docx`
@@ -94,7 +94,7 @@ const EditorModal: FC<Props> = ({ user, student }) => {
             <Editor
                 apiKey="u94heduvky3me3yl97t3de7hnr8yqiv2b9epkezfe1fs3szg"
                 onInit={(evt, editor) => {
-                    if (user.role.toLocaleLowerCase() !== "student") {
+                    if (user.role.toLocaleLowerCase() !== "student" && evt) {
                         editor
                             .getBody()
                             .setAttribute("contenteditable", "false");
@@ -153,20 +153,23 @@ const EditorModal: FC<Props> = ({ user, student }) => {
                     image_title: true,
                     automatic_uploads: true,
                     file_picker_types: "image",
-                    file_picker_callback: (cb, value, meta) => {
+                    file_picker_callback: (cb) => {
                         const input = document.createElement("input");
                         input.setAttribute("type", "file");
                         input.setAttribute("accept", "image/*");
 
                         input.addEventListener("change", (e) => {
-                            const file = e.target?.files[0];
+                            const target = e.target as HTMLInputElement;
+                            const file: any = target?.files?.[0];
 
                             const reader = new FileReader();
                             reader.addEventListener("load", () => {
                                 const id = "blobid" + new Date().getTime();
                                 const blobCache =
                                     editorRef.current.editorUpload.blobCache;
-                                const base64 = reader.result?.split(",")[1];
+                                const base64 = reader.result
+                                    ?.toString()
+                                    .split(",")[1];
                                 const blobInfo = blobCache.create(
                                     id,
                                     file,
@@ -175,7 +178,9 @@ const EditorModal: FC<Props> = ({ user, student }) => {
                                 blobCache.add(blobInfo);
 
                                 /* call the callback and populate the Title field with the file name */
-                                cb(blobInfo.blobUri(), { title: file.name });
+                                cb(blobInfo.blobUri(), {
+                                    title: file?.name,
+                                });
                             });
                             reader.readAsDataURL(file);
                         });

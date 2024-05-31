@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Container, InputGroup } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Layout from "@/hocs/Layout";
-// import CSRFToken from "@/components/CSRFToken";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -62,11 +61,11 @@ const Login = () => {
         <Layout title={"Вход"} content={"Страница входа"}>
             <Container
                 className={
-                    "justify-content-center align-items-center flex flex-column vh-100 mx-auto"
+                    "justify-center align-items-center flex flex-column min-h-[50rem] mx-auto"
                 }>
                 <div
                     className={
-                        "justify-content-center align-items-center fs-1 fw-bold"
+                        "justify-content-center align-items-center fs-1 fw-bold mb-4"
                     }>
                     <div>Вход</div>
                 </div>
@@ -74,7 +73,6 @@ const Login = () => {
                     <form
                         onSubmit={form.handleSubmit(handleSubmit)}
                         className={"space-y-3 mw-100 form-width text-center"}>
-                        {/* <CSRFToken /> */}
                         {isError && (
                             <FormLabel className={"text-start text-red-600"}>
                                 Неправильная почта или пароль!
@@ -86,7 +84,6 @@ const Login = () => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    {/* <FormLabel>Почта</FormLabel> */}
                                     <FormControl>
                                         <Input placeholder="Почта" {...field} />
                                     </FormControl>
@@ -98,7 +95,6 @@ const Login = () => {
                             name="password"
                             render={({ field }) => (
                                 <FormItem>
-                                    {/* <FormLabel>Пароль</FormLabel> */}
                                     <InputGroup className="flex-nowrap">
                                         <FormControl>
                                             <Input
@@ -137,8 +133,8 @@ const Login = () => {
                         </Button>
                     </form>
                 </Form>
-                <div className={"mt-3"}>
-                    <p className={"mb-0 text-center"}>
+                <div className={"mt-4"}>
+                    <p className={"mb-0 text-center font-normal"}>
                         Еще нет аккаунта?{" "}
                         <Link
                             to={"/sign-up"}

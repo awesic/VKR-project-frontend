@@ -1,7 +1,6 @@
 import { BACKEND_DOMAIN } from "@/data/types/constants";
 import axios from "axios";
 import { api } from "@/features/services";
-// import Cookie from "js-cookie";
 
 export const axiosPublic = axios.create({
     baseURL: BACKEND_DOMAIN,
@@ -16,24 +15,46 @@ export const axiosPrivate = axios.create({
     baseURL: BACKEND_DOMAIN,
     headers: {
         Accept: "application/json",
-        "Content-type": "multipart/form-data",
+        "Content-type": "application/json",
     },
     withCredentials: true,
 });
 
 axiosPrivate.interceptors.request.use(
     (config) => {
-        config.headers.Authorization = `Bearer ${localStorage.getItem(
-            "access"
-        )}`;
+        config.headers.Authorization = `JWT ${localStorage.getItem("access")}`;
         return config;
     },
     (error) => {
         try {
-            api.refreshToken;
+            return api.refreshToken;
         } catch (error) {
-            return Promise.reject(error);
+            api.logout();
+            if (axios.isAxiosError(error))
+                return Promise.reject(error.response?.data);
         }
+        return Promise.reject(error);
+    }
+);
+
+axiosPublic.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        if (axios.isAxiosError(error))
+            return Promise.reject(error.response?.data);
+        return Promise.reject(error);
+    }
+);
+
+axiosPrivate.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        if (axios.isAxiosError(error))
+            return Promise.reject(error.response?.data);
         return Promise.reject(error);
     }
 );

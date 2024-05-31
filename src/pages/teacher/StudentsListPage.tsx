@@ -20,7 +20,7 @@ const StudentsListPage = () => {
                         className={
                             "scroll-m-20 text-xl font-semibold tracking-tight"
                         }>
-                        Список студентов, которых Вы выбрали
+                        Список студентов, которых Вы утвердили
                     </h4>
 
                     {isPending ? (
@@ -38,11 +38,11 @@ const StudentsListPage = () => {
                             adminStudents={false}
                         />
                     )}
-                    <Toaster
+                    {/* <Toaster
                         richColors
                         closeButton
-                        toastOptions={{ duration: 1000 * 5 }}
-                    />
+                        toastOptions={{ duration: 1000 * 10 }}
+                    /> */}
                 </div>
             </Layout>
         </>

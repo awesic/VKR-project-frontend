@@ -14,6 +14,7 @@ const ChooseStudentsPage = lazy(
     () => import("@/pages/teacher/ChooseStudentsPage")
 );
 const StudentsListPage = lazy(() => import("@/pages/teacher/StudentsListPage"));
+const TextEditorPage = lazy(() => import("@/pages/TextEditorPage"));
 
 const Roles = {
     admin: "admin",
@@ -27,7 +28,6 @@ export const App: React.FC = () => {
             <Router>
                 <Routes>
                     <Route path={"/"} element={<LazyLayout />}>
-                        {/*<Route path={"loading"} element={<Loading/>}/>*/}
                         <Route index element={<IntroPage />} />
                         <Route path="login" element={<Login />} />
                         <Route path={"sign-up"} element={<Signup />} />
@@ -45,6 +45,16 @@ export const App: React.FC = () => {
                             <Route path={"home"} element={<Homepage />} />
                         </Route>
                         <Route
+                            path="student"
+                            element={
+                                <PrivateRoute allowedRoles={[Roles.student]} />
+                            }>
+                            <Route
+                                path="edit-docs"
+                                element={<TextEditorPage />}
+                            />
+                        </Route>
+                        <Route
                             path={"teacher"}
                             element={
                                 <PrivateRoute allowedRoles={[Roles.teacher]} />
@@ -57,6 +67,10 @@ export const App: React.FC = () => {
                                 path={"students-list"}
                                 element={<StudentsListPage />}
                             />
+                            <Route
+                                path="student-doc"
+                                element={<TextEditorPage />}
+                            />
                         </Route>
                         <Route
                             path={"admin"}
@@ -64,12 +78,16 @@ export const App: React.FC = () => {
                                 <PrivateRoute allowedRoles={[Roles.admin]} />
                             }>
                             <Route
-                                path={"students"}
+                                path={"students-list"}
                                 element={<AdminStudentsListPage />}
                             />
                             <Route
-                                path={"teachers"}
+                                path={"teachers-list"}
                                 element={<AdminTeachersListPage />}
+                            />
+                            <Route
+                                path="student-doc"
+                                element={<TextEditorPage />}
                             />
                         </Route>
 

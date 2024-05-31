@@ -1,5 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    ADMIN_STUD_LIST_LINK,
+    ADMIN_TEACH_LIST_LINK,
+} from "@/data/types/constants";
 import { ChevronsRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -9,11 +13,8 @@ export const AdminTeachersListCard = () => {
             <CardHeader>
                 <CardTitle>Список преподавателей</CardTitle>
             </CardHeader>
-            {/* <CardContent className="text-neutral-600">
-                Список студентов, которые выбрали Вас научным руководителем
-            </CardContent> */}
             <CardFooter>
-                <Link to={"/admin/teachers"}>
+                <Link to={ADMIN_TEACH_LIST_LINK}>
                     <Button variant={"outline"} className="text-lg" size={"lg"}>
                         Перейти {<ChevronsRight className="ml-3" />}
                     </Button>
@@ -29,11 +30,8 @@ export const AdminStudentsListCard = () => {
             <CardHeader>
                 <CardTitle>Список студентов</CardTitle>
             </CardHeader>
-            {/* <CardContent className="text-neutral-600">
-                Список студентов, которых Вы выбрали
-            </CardContent> */}
             <CardFooter>
-                <Link to={"/admin/students"}>
+                <Link to={ADMIN_STUD_LIST_LINK}>
                     <Button variant={"outline"} className="text-lg" size={"lg"}>
                         Перейти {<ChevronsRight className="ml-3" />}
                     </Button>

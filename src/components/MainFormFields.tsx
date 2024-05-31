@@ -23,7 +23,6 @@ export const MainFormFields = ({ form }: Props) => {
                 name="last_name"
                 render={({ field }) => (
                     <FormItem>
-                        {/* <FormLabel>Почта</FormLabel> */}
                         <FormControl>
                             <Input placeholder="Фамилия *" {...field} />
                         </FormControl>
@@ -35,7 +34,6 @@ export const MainFormFields = ({ form }: Props) => {
                 name="first_name"
                 render={({ field }) => (
                     <FormItem>
-                        {/* <FormLabel>Почта</FormLabel> */}
                         <FormControl>
                             <Input placeholder="Имя *" {...field} />
                         </FormControl>
@@ -47,7 +45,6 @@ export const MainFormFields = ({ form }: Props) => {
                 name="patronymic"
                 render={({ field }) => (
                     <FormItem>
-                        {/* <FormLabel>Почта</FormLabel> */}
                         <FormControl>
                             <Input placeholder="Отчество" {...field} />
                         </FormControl>
@@ -59,7 +56,6 @@ export const MainFormFields = ({ form }: Props) => {
                 name="email"
                 render={({ field }) => (
                     <FormItem>
-                        {/* <FormLabel>Почта</FormLabel> */}
                         <FormControl>
                             <Input placeholder="Почта *" {...field} />
                         </FormControl>
@@ -71,7 +67,6 @@ export const MainFormFields = ({ form }: Props) => {
                 name="password"
                 render={({ field }) => (
                     <FormItem>
-                        {/* <FormLabel>Пароль</FormLabel> */}
                         <InputGroup className="flex-nowrap">
                             <FormControl>
                                 <Input
@@ -95,7 +90,6 @@ export const MainFormFields = ({ form }: Props) => {
                 name="password2"
                 render={({ field }) => (
                     <FormItem>
-                        {/* <FormLabel>Почта</FormLabel> */}
                         <FormControl>
                             <Input
                                 type="password"

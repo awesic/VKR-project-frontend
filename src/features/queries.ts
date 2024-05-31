@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { api } from "./services";
 import { QUERY_KEY } from "@/data/types/constants";
-import { TEmailParamsFields } from "@/data/types/UsersTypes";
+import {
+    TEmailParamsFields,
+    TForgejoPathFields,
+} from "@/data/types/UsersTypes";
 
 export const useRegisterQuery = () => {
     const queryClient = useQueryClient();
@@ -13,15 +16,19 @@ export const useRegisterQuery = () => {
         mutationFn: api.register,
         onSuccess: async (data) => {
             await queryClient.setQueryData([QUERY_KEY.user], data);
+            toast.success("Вы успешно зарегистрировались!");
             navigate("/home");
         },
-        // onError(error) {
-        //     error.message = "Аккаунт с этой почтой уже существует";
-        // },
+        onError(error) {
+            if (error.message) {
+                toast.error(error.message);
+            } else {
+                toast.error("Ошибка! Попробуйте снова.");
+            }
+        },
         onSettled: async () => {
             await queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY.user],
-                // refetchType: "none",
             });
         },
     });
@@ -70,6 +77,7 @@ export const useChangeStudentsThemeTeacherStatus = () => {
         mutationFn: api.changeStudentThemeTeacherStatus,
         onSuccess: async (data) => {
             await queryClient.setQueryData([QUERY_KEY.user], data);
+            toast.success("Обновлено успешно!");
         },
         onError: () => {
             toast.error(
@@ -126,15 +134,20 @@ export const useApproveStudentQuery = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ studEmail, params }: TEmailParamsFields) =>
-            api.approveStudent({ studEmail, params }),
-        onError: () => {
-            toast.error(
-                "Ошибка! Попробуйте обновить страницу и попробовать снова."
-            );
+            api.teacherUpdateStudentsActions({ studEmail, params }),
+        onError: (error) => {
+            if (error.message) {
+                toast.error(error.message);
+            } else {
+                toast.error(
+                    "Ошибка! Попробуйте обновить страницу и попробовать снова."
+                );
+            }
         },
-        // onSuccess: async (data) => {
-        //     await queryClient.setQueryData([QUERY_KEY.students], data);
-        // },
+        onSuccess: () => {
+            toast.success("Обновлено успешно!");
+            // await queryClient.setQueryData([QUERY_KEY.students], data);
+        },
         onSettled: async () => {
             await queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY.students],
@@ -147,16 +160,15 @@ export const useApproveStudentQuery = () => {
 export const useAdminsActionsQuery = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ studEmail, params }: TEmailParamsFields) =>
-            api.adminApproveActions({ studEmail, params }),
+        mutationFn: api.adminUpdateStudentsActions,
         onError: () => {
             toast.error(
                 "Ошибка! Попробуйте обновить страницу и попробовать снова."
             );
         },
-        // onSuccess: async (data) => {
-        //     await queryClient.setQueryData([QUERY_KEY.students], data);
-        // },
+        onSuccess: () => {
+            toast.success("Обновлено успешно!");
+        },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: [QUERY_KEY.students] });
         },
@@ -170,14 +182,74 @@ export const useDeleteUserQuery = (
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: () => api.deleteUser(who, email),
-        onError: () => {
-            toast.error("Ошибка! Не удалось удалить пользователя!");
+        onSuccess: () => {
+            toast.success("Пользователь удален!");
         },
-
+        onError: (error) => {
+            if (error.message) {
+                toast.error(error.message);
+            } else {
+                toast.error("Ошибка! Не удалось удалить пользователя!");
+            }
+        },
         onSettled: () => {
             queryClient.invalidateQueries({
                 queryKey: [`${who}s`],
             });
+        },
+    });
+};
+
+// --------------------------- FORGEJO ---------------------------
+export const useUploadFileToForgejo = () => {
+    return useMutation({
+        mutationFn: api.uploadFileToForgejo,
+        onSuccess(data) {
+            if (data.message) {
+                toast.success(data.message);
+            } else {
+                toast.success("Сохранено!");
+            }
+        },
+        onError(error) {
+            if (error.message) {
+                toast.error(error.message);
+            } else {
+                toast.error("Ошибка!");
+            }
+        },
+    });
+};
+
+export const useGetForgejoFileContent = ({
+    email,
+    repo,
+    filepath,
+    method,
+}: TForgejoPathFields) => {
+    return useQuery({
+        queryKey: [QUERY_KEY.forgejo],
+        queryFn: () =>
+            api.crudForgejoFileContent({ email, repo, filepath, method }),
+        gcTime: Infinity,
+        staleTime: 1000 * 60 * 60 * 24,
+    });
+};
+
+export const useUpdateForgejoFileContent = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: api.crudForgejoFileContent,
+        onSuccess(data) {
+            queryClient.setQueryData([QUERY_KEY.forgejo], data);
+            toast.success("Сохранено успешно!");
+        },
+        onError(error) {
+            if (error.message) {
+                toast.error(error.message);
+            } else {
+                toast.error("Ошибка!");
+            }
         },
     });
 };

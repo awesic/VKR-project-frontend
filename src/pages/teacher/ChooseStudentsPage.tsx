@@ -37,11 +37,11 @@ const ChooseStudentsPage = () => {
                             adminStudents={false}
                         />
                     )}
-                    <Toaster
+                    {/* <Toaster
                         richColors
                         closeButton
                         toastOptions={{ duration: 1000 * 5 }}
-                    />
+                    /> */}
                 </div>
             </Layout>
         </>

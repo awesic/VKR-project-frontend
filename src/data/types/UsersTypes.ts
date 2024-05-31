@@ -49,9 +49,18 @@ export type TEmailParamsFields = {
     params: {
         teacher_approved?: boolean;
         theme_approved?: boolean;
+        theme?: string;
     };
 };
 
-export type TUserTokenFields = TToken & User
-export type TTeacherTokenFields = TToken & Teacher
-export type TStudentTokenFields = TToken & Student
+export type TUserTokenFields = TToken & User;
+export type TTeacherTokenFields = TToken & Teacher;
+export type TStudentTokenFields = TToken & Student;
+
+export type TForgejoPathFields = {
+    email: string;
+    repo: string;
+    data?: any;
+    filepath?: string;
+    method: "GET" | "POST" | "PUT" | "PATCH";
+};

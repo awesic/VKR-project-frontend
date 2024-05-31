@@ -6,6 +6,10 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import {
+    TEACHER_CHOOSE_STUD_LINK,
+    TEACHER_STUD_LIST_LINK,
+} from "@/data/types/constants";
 import { ChevronsRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -19,7 +23,7 @@ export const StudentsCard = () => {
                 Список студентов, которые выбрали Вас научным руководителем
             </CardContent>
             <CardFooter>
-                <Link to={"/teacher/choose-student"}>
+                <Link to={TEACHER_CHOOSE_STUD_LINK}>
                     <Button variant={"outline"} className="text-lg" size={"lg"}>
                         Перейти {<ChevronsRight className="ml-3" />}
                     </Button>
@@ -39,7 +43,7 @@ export const StudentsListCard = () => {
                 Список студентов, которых Вы выбрали
             </CardContent>
             <CardFooter>
-                <Link to={"/teacher/students-list"}>
+                <Link to={TEACHER_STUD_LIST_LINK}>
                     <Button variant={"outline"} className="text-lg" size={"lg"}>
                         Перейти {<ChevronsRight className="ml-3" />}
                     </Button>

@@ -33,6 +33,7 @@ export const mapStudentColumnsHeaders = (columnId: string) => {
         { id: "theme", label: "Тема" },
         { id: "theme_approved", label: "Тема утверждена" },
         { id: "status_label", label: "Этап" },
+        { id: "department_label", label: "Кафедра" },
     ];
     return headers.find((head) => head.id === columnId)?.label || columnId;
 };
@@ -66,3 +67,37 @@ export const getStatusIcon = (status: string): LucideIcon => {
     ];
     return statusIcons.find((icon) => icon.id === status)?.icon || BookHeart;
 };
+
+export function convertImagesToBase64(contentDocument: Document) {
+    const MAX_WIDTH = 640;
+    var regularImages = contentDocument.querySelectorAll(
+        "img"
+    ) as NodeListOf<HTMLImageElement>;
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+    [].forEach.call(regularImages, (img: HTMLImageElement) => {
+        // preparing canvas for drawing
+        ctx?.clearRect(0, 0, canvas.width, canvas.height);
+        if (img.width > MAX_WIDTH) {
+            canvas.width = MAX_WIDTH;
+            canvas.height = Math.floor(canvas.width * (img.height / img.width));
+        } else {
+            canvas.width = img.width;
+            canvas.height = img.height;
+        }
+
+        // let scale = Math.min(
+        //     canvas.width / img.naturalWidth,
+        //     canvas.height / img.naturalHeight
+        // );
+        // let width = img.naturalWidth * scale;
+        // let height = img.naturalHeight * scale;
+
+        ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // var dataURL = canvas.toDataURL("image/jpeg", 1.0);
+        // img.setAttribute("src", dataURL);
+        img.src = canvas.toDataURL("image/jpeg", 1.0);
+    });
+    canvas.remove();
+}

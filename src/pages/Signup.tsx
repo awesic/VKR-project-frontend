@@ -39,8 +39,8 @@ const Signup = () => {
                     </TabsContent>
                 </Tabs>
 
-                <div className={"mt-3 mb-3"}>
-                    <p className={"mb-0 text-center"}>
+                <div className={"mt-4 mb-3"}>
+                    <p className={"mb-0 text-center font-normal"}>
                         Уже есть аккаунт?{" "}
                         <Link to={"/login"} className={"text-primary fw-bold"}>
                             Войти

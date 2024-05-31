@@ -2,7 +2,6 @@ import { z } from "zod";
 import { Form, FormLabel } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-// import CSRFToken from "@/components/CSRFToken";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
@@ -16,10 +15,10 @@ export const baseFormSchema = z.object({
         .email({ message: "Неправильный формат почты" }),
     password: z
         .string({ required_error: "Это поле обязательно для заполнения" })
-        .min(3, { message: "Пароль слишком короткий" }),
+        .min(8, { message: "Пароль должен быть не менее 8 символов" }),
     password2: z
         .string({ required_error: "Это поле обязательно для заполнения" })
-        .min(3, { message: "Повторите пароль" }),
+        .min(8, { message: "Повторите пароль" }),
     first_name: z
         .string({ required_error: "Это поле обязательно для заполнения" })
         .min(3, { message: "Имя должно быть не менее 3 букв" }),
@@ -63,7 +62,6 @@ const AdminSignupForm = () => {
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className={"min-w-[16rem] space-y-3 text-center"}>
-                {/* <CSRFToken /> */}
                 <FormLabel className={"text-start text-danger"}>
                     {error ? error.message : ""}
                 </FormLabel>

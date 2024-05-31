@@ -26,7 +26,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2, Check, ChevronsUpDown } from "lucide-react";
-// import CSRFToken from "@/components/CSRFToken";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ScrollArea } from "./ui/scroll-area";
 import {
@@ -88,13 +87,15 @@ const StudentSignupForm = () => {
     ).map((x) => x + new Date().getFullYear());
 
     const { isSuccess } = useGetUserInfo();
-    const { error, isPending, mutate: register } = useRegisterQuery();
+    const {
+        data: regData,
+        error,
+        isPending,
+        mutate: register,
+    } = useRegisterQuery();
 
     const form = useForm<StudentFormSchema>({
         resolver: zodResolver(studentFormSchema),
-        defaultValues: {
-            // graduate_year: new Date().getFullYear(),
-        },
     });
     const navigate = useNavigate();
 
@@ -111,7 +112,6 @@ const StudentSignupForm = () => {
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className={"min-w-min space-y-3 text-center"}>
-                {/* <CSRFToken /> */}
                 <FormLabel className={"text-start text-danger"}>
                     {error ? error.message : ""}
                 </FormLabel>

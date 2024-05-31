@@ -6,16 +6,13 @@ import {
     Teacher,
     User,
     TEmailParamsFields,
-    // TStudentTokenFields,
-    // TTeacherTokenFields,
-    // TUserTokenFields,
-    // TToken,
+    TForgejoPathFields,
 } from "@/data/types/UsersTypes";
 
 const REGISTER_URL = "/auth/register/";
 const LOGIN_URL = "/auth/login/";
 const LOGOUT_URL = "/auth/logout/";
-const USER_PROFILE_URL = "/account/profile/";
+const USER_PROFILE_URL = "/profile/";
 const CHANGE_STUDENTS_CRED_URL = "/student/change/";
 const STUDENTS_CHOOSE_LIST_URL = "/teacher/students-choose-list/";
 const TEACHER_STUDENT_URL = "/teacher/student";
@@ -25,9 +22,10 @@ const INSTITUTE_URL = "/institute/";
 const DIRECTIONS_URL = "/directions/";
 const DEPARTMENTS_URL = "/departments/";
 const STATUSES_URL = "/status/";
-// const TOKEN_URL = "/token/";
-const REFRESH_URL = "/token/refresh";
-const VERIFY_URL = "/token/verify";
+const REFRESH_URL = "/auth/token/refresh";
+const VERIFY_URL = "/auth/token/verify";
+
+const FORGEJO_REPO_URL = "/forgejo/repos/";
 
 const refreshToken = async () => {
     const { data } = await axiosPublic.post(REFRESH_URL, {
@@ -73,8 +71,7 @@ const login = async (userData: LoginFields) => {
 
 const logout = async () => {
     await axiosPrivate.post(LOGOUT_URL);
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
+    localStorage.clear();
 };
 
 const getUserInfo = async () => {
@@ -103,14 +100,17 @@ const fetchStatuses = async (): Promise<TIdLabelFields[]> => {
     return (await axiosPrivate.get(STATUSES_URL)).data;
 };
 
-const approveStudent = async ({ studEmail, params }: TEmailParamsFields) => {
+const teacherUpdateStudentsActions = async ({
+    studEmail,
+    params,
+}: TEmailParamsFields) => {
     return await axiosPrivate.put(
         `${TEACHER_STUDENT_URL}/${studEmail}/change/`,
         params
     );
 };
 
-const adminApproveActions = async ({
+const adminUpdateStudentsActions = async ({
     studEmail,
     params,
 }: TEmailParamsFields): Promise<Student> => {
@@ -137,6 +137,82 @@ const fetchDepartments = async (): Promise<TIdLabelFields[]> => {
     return await axiosPublic.get(DEPARTMENTS_URL).then((res) => res.data);
 };
 
+//---------------------------- FORGEJO -------------------------------------
+
+const uploadFileToForgejo = async ({
+    email,
+    repo,
+    data,
+}: TForgejoPathFields): Promise<any> => {
+    const config = {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    };
+
+    return await axiosPrivate
+        .post(`${FORGEJO_REPO_URL}${email}/${repo}/upload-file/`, data, config)
+        .then((res) => res.data);
+};
+
+const getForgejoFileContent = async ({
+    email,
+    repo,
+    filepath,
+}: TForgejoPathFields) => {
+    return await axiosPrivate
+        .get(`${FORGEJO_REPO_URL}${email}/${repo}/contents/${filepath}/`)
+        .then((res) => res.data);
+};
+
+const crudForgejoFileContent = async ({
+    email,
+    repo,
+    filepath,
+    data,
+    method,
+}: TForgejoPathFields) => {
+    const config = {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    };
+    switch (method) {
+        case "GET":
+            return await axiosPrivate
+                .get(
+                    `${FORGEJO_REPO_URL}${email}/${repo}/contents/${filepath}/`
+                )
+                .then((res) => res.data);
+
+        case "POST":
+            return await axiosPrivate
+                .post(
+                    `${FORGEJO_REPO_URL}${email}/${repo}/contents/${filepath}/`,
+                    data
+                )
+                .then((res) => res.data);
+
+        case "PATCH":
+            return await axiosPrivate
+                .patch(
+                    `${FORGEJO_REPO_URL}${email}/${repo}/contents/${filepath}/`,
+                    data,
+                    config
+                )
+                .then((res) => res.data);
+
+        case "PUT":
+            return await axiosPrivate
+                .put(
+                    `${FORGEJO_REPO_URL}${email}/${repo}/contents/${filepath}/`,
+                    data,
+                    config
+                )
+                .then((res) => res.data);
+    }
+};
+
 export const api = {
     refreshToken,
     verifyToken,
@@ -149,10 +225,13 @@ export const api = {
     fetchAllTeachers,
     fetchAllStudents,
     fetchStatuses,
-    approveStudent,
+    teacherUpdateStudentsActions,
     fetchInstitutes,
     fetchDirections,
     fetchDepartments,
     deleteUser,
-    adminApproveActions,
+    adminUpdateStudentsActions,
+    uploadFileToForgejo,
+    getForgejoFileContent,
+    crudForgejoFileContent,
 };

@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -7,6 +7,7 @@ import {
     XCircle,
     MoreHorizontal,
     AlertTriangle,
+    PenLine,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,32 +23,17 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-import { DeleteUserAlert } from "../DeleteUserAlert";
+import { useCallback, useState } from "react";
+import { ChangeStudentThemeDialog, DeleteUserAlert } from "../DeleteUserAlert";
 import { Student, Teacher } from "@/data/types/UsersTypes";
+import { Link } from "react-router-dom";
+import {
+    ADMIN_STUD_DOC_LINK,
+    TEACHER_STUD_DOC_LINK,
+} from "@/data/types/constants";
 
 type TStudents = Student;
-// {
-//     id: number;
-//     email: string;
-//     fio: string;
-//     group: string;
-//     graduate_year: number;
-//     teacher_approved: boolean;
-//     teacher_fullname: string;
-//     theme: string;
-//     theme_approved: boolean;
-//     status_label: string;
-//     // action?: any;
-// };
-
 type TTeachers = Teacher;
-// {
-//     id: number;
-//     email: string;
-//     fio: string;
-//     department_label: string;
-// };
 
 export const StudentsListColumns: ColumnDef<TStudents>[] = [
     {
@@ -144,9 +130,7 @@ export const StudentsListColumns: ColumnDef<TStudents>[] = [
             );
         },
         cell: ({ row }) => {
-            const value = row.original.status_label;
-
-            return <p className="font-medium">{value}</p>;
+            return <p className="font-medium">{row.original.status_label}</p>;
         },
     },
     {
@@ -154,45 +138,92 @@ export const StudentsListColumns: ColumnDef<TStudents>[] = [
         enableHiding: false,
         cell: ({ row }) => {
             const student = row.original;
-            const { mutate: approveStudent } = useApproveStudentQuery();
+            localStorage.setItem(
+                "current_student_info",
+                JSON.stringify(student)
+            );
+            const [chStOpen, setChStOpen] = useState(false);
+            const [newTheme, setNewTheme] = useState("");
+            const { mutate: updateStudent, isPending } =
+                useApproveStudentQuery();
+
+            const handleThemeChange = (theme?: string) => {
+                if (theme) setNewTheme(theme);
+            };
+            const handleChThemeSubmit = useCallback(() => {
+                if (newTheme && newTheme !== student.theme)
+                    updateStudent({
+                        studEmail: student.email,
+                        params: {
+                            theme: newTheme,
+                        },
+                    });
+            }, [newTheme]);
 
             return (
                 <>
                     {student.teacher_approved ? (
-                        student.theme_approved ? (
-                            <Button
-                                size={"sm"}
-                                variant={"outline"}
-                                className="hover:text-neutral-50 hover:bg-neutral-600"
-                                onClick={() =>
-                                    approveStudent({
-                                        studEmail: student.email,
-                                        params: { theme_approved: false },
-                                    })
-                                }>
-                                Отменить утверждение темы
-                            </Button>
-                        ) : (
-                            <Button
-                                size={"sm"}
-                                variant={"outline"}
-                                className="hover:text-neutral-50 hover:bg-neutral-600"
-                                onClick={() =>
-                                    approveStudent({
-                                        studEmail: student.email,
-                                        params: { theme_approved: true },
-                                    })
-                                }>
-                                Утвердить тему
-                            </Button>
-                        )
+                        <>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        className="h-8 w-8 p-0">
+                                        <span className="sr-only">
+                                            Open menu
+                                        </span>
+                                        <MoreHorizontal className="h-4 w-4" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuItem
+                                        className={
+                                            student.theme_approved
+                                                ? "text-red-700"
+                                                : ""
+                                        }
+                                        onClick={() =>
+                                            updateStudent({
+                                                studEmail: student.email,
+                                                params: {
+                                                    theme_approved:
+                                                        !student.theme_approved,
+                                                },
+                                            })
+                                        }>
+                                        {student.theme_approved
+                                            ? "Отменить утверждение темы"
+                                            : "Утвердить тему"}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={() => setChStOpen(true)}>
+                                        <PenLine className="mr-2 h-4 w-4" />
+                                        Изменить тему
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <Link to={TEACHER_STUD_DOC_LINK}>
+                                        <DropdownMenuItem>
+                                            Открыть работу
+                                        </DropdownMenuItem>
+                                    </Link>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <ChangeStudentThemeDialog
+                                open={chStOpen}
+                                setOpen={setChStOpen}
+                                theme={student.theme}
+                                isLoading={isPending}
+                                handleChange={handleThemeChange}
+                                handleSubmit={handleChThemeSubmit}
+                            />
+                        </>
                     ) : (
                         <Button
                             size={"sm"}
                             variant={"secondary"}
                             className="bg-neutral-300 border-neutral-700 text-neutral-900 hover:text-neutral-50 hover:bg-neutral-600"
                             onClick={() =>
-                                approveStudent({
+                                updateStudent({
                                     studEmail: student.email,
                                     params: { teacher_approved: true },
                                 })
@@ -297,7 +328,7 @@ export const AdminStudentsColumns: ColumnDef<TStudents>[] = [
                     onClick={() =>
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }>
-                    Утвержден
+                    Преподаватель{<br />}утвержден
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -341,7 +372,7 @@ export const AdminStudentsColumns: ColumnDef<TStudents>[] = [
                     onClick={() =>
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }>
-                    Утверждена
+                    Тема{<br />} утверждена
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -364,12 +395,31 @@ export const AdminStudentsColumns: ColumnDef<TStudents>[] = [
         enableHiding: false,
         cell: ({ row }) => {
             const student = row.original;
+            localStorage.setItem(
+                "current_student_info",
+                JSON.stringify(student)
+            );
             const [open, setOpen] = useState(false);
-            const { mutate: updataStudent } = useAdminsActionsQuery();
+            const [chStOpen, setChStOpen] = useState(false);
+            const [newTheme, setNewTheme] = useState("");
+            const { mutate: updataStudent, isPending } =
+                useAdminsActionsQuery();
             const { mutate: deleteUser } = useDeleteUserQuery(
                 "student",
                 student.email
             );
+            const handleThemeChange = (theme?: string) => {
+                if (theme) setNewTheme(theme);
+            };
+            const handleChThemeSubmit = useCallback(() => {
+                if (newTheme && newTheme !== student.theme)
+                    updataStudent({
+                        studEmail: student.email,
+                        params: {
+                            theme: newTheme,
+                        },
+                    });
+            }, [newTheme]);
 
             return (
                 <>
@@ -381,31 +431,58 @@ export const AdminStudentsColumns: ColumnDef<TStudents>[] = [
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Действия</DropdownMenuLabel>
                             <DropdownMenuItem
+                                className={
+                                    student.teacher_approved
+                                        ? "text-red-700"
+                                        : ""
+                                }
                                 onClick={() =>
                                     updataStudent({
                                         studEmail: student.email,
-                                        params: { teacher_approved: true },
+                                        params: {
+                                            teacher_approved:
+                                                !student.teacher_approved,
+                                        },
                                     })
                                 }>
-                                Утвердить преподавателя
+                                {student.teacher_approved
+                                    ? "Отменить утверждение преподавателя"
+                                    : "Утвердить преподавателя"}
                             </DropdownMenuItem>
                             <DropdownMenuItem
+                                className={
+                                    student.theme_approved ? "text-red-700" : ""
+                                }
                                 onClick={() =>
                                     updataStudent({
                                         studEmail: student.email,
-                                        params: { theme_approved: true },
+                                        params: {
+                                            theme_approved:
+                                                !student.theme_approved,
+                                        },
                                     })
                                 }>
-                                Утвердить тему
+                                {student.theme_approved
+                                    ? "Отменить утверждение темы"
+                                    : "Утвердить тему"}
                             </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setChStOpen(true)}>
+                                <PenLine className="mr-2 h-4 w-4" />
+                                Изменить тему
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <Link to={ADMIN_STUD_DOC_LINK}>
+                                <DropdownMenuItem>
+                                    Открыть работу
+                                </DropdownMenuItem>
+                            </Link>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 inset
                                 className="text-red-700 font-medium"
                                 onClick={() => setOpen(true)}>
-                                <AlertTriangle className="mr-2" />
+                                <AlertTriangle className="mr-2 h-4 w-4" />
                                 Удалить студента
                             </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -414,6 +491,14 @@ export const AdminStudentsColumns: ColumnDef<TStudents>[] = [
                         open={open}
                         setOpen={setOpen}
                         deleteUser={deleteUser}
+                    />
+                    <ChangeStudentThemeDialog
+                        open={chStOpen}
+                        setOpen={setChStOpen}
+                        theme={student.theme}
+                        isLoading={isPending}
+                        handleChange={handleThemeChange}
+                        handleSubmit={handleChThemeSubmit}
                     />
                 </>
             );
@@ -491,12 +576,10 @@ export const TeachersListColumns: ColumnDef<TTeachers>[] = [
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Действия</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 className="text-red-700 font-medium"
                                 onClick={() => setOpen(true)}>
-                                <AlertTriangle className="mr-2" />
+                                <AlertTriangle className="mr-2 h-4" />
                                 Удалить преподавателя
                             </DropdownMenuItem>
                         </DropdownMenuContent>

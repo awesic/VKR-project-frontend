@@ -9,7 +9,6 @@ import {
 } from "@/pages/student/StudentPage";
 import { StudentsCard, StudentsListCard } from "@/pages/teacher/TeacherPage";
 import { useGetUserInfo } from "@/features/queries";
-import { Toaster } from "sonner";
 import {
     AdminStudentsListCard,
     AdminTeachersListCard,

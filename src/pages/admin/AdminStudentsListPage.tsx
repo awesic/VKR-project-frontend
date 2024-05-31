@@ -4,7 +4,7 @@ import { AdminStudentsColumns } from "@/components/ListDataTable/columns";
 import { DataTable } from "@/components/ListDataTable/data-table";
 import { useFetchAllStudents } from "@/features/queries";
 import { SpinnerCenter } from "../Loading";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 const AdminStudentsListPage = () => {
     const { data: studentsList, isError, isPending } = useFetchAllStudents();

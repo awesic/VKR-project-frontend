@@ -88,7 +88,7 @@ const StudentSignupForm = () => {
 
     const { isSuccess } = useGetUserInfo();
     const {
-        data: regData,
+        // data: regData,
         error,
         isPending,
         mutate: register,

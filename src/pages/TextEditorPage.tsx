@@ -3,7 +3,6 @@ import Navbars from "@/components/Navbars";
 import Layout from "@/hocs/Layout";
 import { useGetUserInfo } from "@/features/queries";
 import EditorModal from "@/components/EditorModal";
-import { Toaster } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";

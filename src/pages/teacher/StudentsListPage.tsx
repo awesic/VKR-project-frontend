@@ -4,7 +4,7 @@ import { StudentsListColumns } from "@/components/ListDataTable/columns";
 import { DataTable } from "@/components/ListDataTable/data-table";
 import { useFetchStudentsQuery } from "@/features/queries";
 import { SpinnerCenter } from "../Loading";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 const StudentsListPage = () => {
     const { data: studentsList, isError, isPending } = useFetchStudentsQuery();

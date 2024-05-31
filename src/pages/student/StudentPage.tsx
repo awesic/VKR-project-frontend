@@ -278,7 +278,7 @@ export const TextEditorCard: FC<Props> = ({ user }) => {
         if (event.target.files) setFile(event.target.files[0]);
     };
 
-    const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (file) {

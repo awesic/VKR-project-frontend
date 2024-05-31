@@ -181,7 +181,7 @@ export const PreferTeacher: FC<Props> = ({ user }) => {
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <CardFooter>
+                    <CardFooter className="p-0">
                         <Dialog>
                             <DialogTrigger asChild>
                                 <Button
@@ -256,7 +256,7 @@ export const FQWStatus: FC<Props> = ({ user }) => {
                     )}
                 </CardHeader>
                 <CardContent>
-                    <div className={"flex justify-center"}>
+                    <div className={"flex flex-row justify-center"}>
                         <StatusCombobox
                             status={status}
                             onStatusSelect={handleSubmit}
@@ -306,11 +306,11 @@ export const TextEditorCard: FC<Props> = ({ user }) => {
                 <CardContent className="text-neutral-600">
                     <form
                         onSubmit={(e) => handleSubmit(e)}
-                        className="flex justify-between">
+                        className="flex-row flex justify-between">
                         <Input
                             type="file"
                             onChange={handleChange}
-                            className="w-min"
+                            className="w-min mr-1"
                             accept=".doc,.docx,application/pdf"
                             required
                         />

@@ -16,6 +16,7 @@ export const BACKEND_DOMAIN = import.meta.env.VITE_API;
 export const FORGEJO_LINK =
     "https://forgejo-production.up.railway.app/user/login";
 export const EXTENDED_ADM_LINK = import.meta.env.VITE_EXTEND_ADM_LINK;
+export const EDITOR_APIKEY = import.meta.env.VITE_EDITOR_APIKEY;
 
 export const STUDENT_EDITOR_LINK = "/student/edit-docs";
 export const TEACHER_CHOOSE_STUD_LINK = "/teacher/choose-student";

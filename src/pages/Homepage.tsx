@@ -44,7 +44,7 @@ function Homepage() {
         <Layout title={"Главная"} content={"Главная страница"}>
             <Fragment>
                 <Navbars />
-                <div className={"container mt-4 mb-auto"}>
+                <div className={"container mt-4 mb-20"}>
                     <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
                         {user?.role?.toString().toLowerCase() === "student"
                             ? studentLinks

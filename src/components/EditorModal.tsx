@@ -14,6 +14,7 @@ import {
     useGetForgejoFileContent,
     useUpdateForgejoFileContent,
 } from "@/features/queries";
+import { EDITOR_APIKEY } from "@/data/types/constants";
 
 interface Props {
     user: Student | Teacher;
@@ -92,7 +93,7 @@ const EditorModal: FC<Props> = ({ user, student }) => {
                 color="grey"
             /> */}
             <Editor
-                apiKey="u94heduvky3me3yl97t3de7hnr8yqiv2b9epkezfe1fs3szg"
+                apiKey={EDITOR_APIKEY}
                 onInit={(evt, editor) => {
                     if (user.role.toLocaleLowerCase() !== "student" && evt) {
                         editor

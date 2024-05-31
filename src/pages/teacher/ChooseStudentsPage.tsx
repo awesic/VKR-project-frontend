@@ -15,7 +15,7 @@ const ChooseStudentsPage = () => {
                 title={"Выбор студентов"}
                 content={"Страница утверждения науч. рук."}>
                 <Navbars />
-                <div className={"container py-5"}>
+                <div className={"container py-5 mb-20"}>
                     <h4
                         className={
                             "scroll-m-20 text-xl font-semibold tracking-tight"

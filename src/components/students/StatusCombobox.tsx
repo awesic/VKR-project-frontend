@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { TIdLabelFields } from "@/data/types/UsersTypes";
 import { getStatusIcon } from "@/data/helpers";
 import { useFetchStatuses } from "@/features/queries";
+import { Link } from "react-router-dom";
 
 type statusWithIcon = TIdLabelFields & { icon: LucideIcon };
 
@@ -61,11 +62,11 @@ export const StatusCombobox: FC<Props> = ({
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
+            <PopoverTrigger asChild className="flex justify-start w-auto">
                 <Button
                     disabled={disabled}
                     variant="outline"
-                    className="justify-start border-2">
+                    className="text-wrap border-2">
                     {selectedStatus ? (
                         <>
                             <selectedStatus.icon className="mr-2 h-4 w-4 shrink-0" />
@@ -76,7 +77,7 @@ export const StatusCombobox: FC<Props> = ({
                     )}
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="p-0" side="right" align="start">
+            <PopoverContent className="p-0" align="start">
                 <Command>
                     <CommandInput placeholder="Поменять статус..." />
                     <CommandList>

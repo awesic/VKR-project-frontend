@@ -18,7 +18,6 @@ import { cn } from "@/lib/utils";
 import { TIdLabelFields } from "@/data/types/UsersTypes";
 import { getStatusIcon } from "@/data/helpers";
 import { useFetchStatuses } from "@/features/queries";
-import { Link } from "react-router-dom";
 
 type statusWithIcon = TIdLabelFields & { icon: LucideIcon };
 

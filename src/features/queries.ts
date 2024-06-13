@@ -15,7 +15,7 @@ export const useRegisterQuery = () => {
     return useMutation({
         mutationFn: api.register,
         onSuccess: async (data) => {
-            await queryClient.setQueryData([QUERY_KEY.user], data);
+            await queryClient.setQueryData([QUERY_KEY.user], data.user);
             toast.success("Вы успешно зарегистрировались!");
             navigate("/home");
         },
@@ -40,7 +40,7 @@ export const useLoginQuery = () => {
     return useMutation({
         mutationFn: api.login,
         onSuccess: async (data) => {
-            await queryClient.setQueryData([QUERY_KEY.user], data);
+            await queryClient.setQueryData([QUERY_KEY.user], data.user);
             await queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY.user],
                 refetchType: "none",
@@ -65,9 +65,9 @@ export const useGetUserInfo = () => {
     return useQuery({
         queryKey: [QUERY_KEY.user],
         queryFn: () => api.getUserInfo(),
-        staleTime: 1000 * 60 * 30,
-        // gcTime: 1000 * 60 * 60 * 24,
-        // retry: false,
+        staleTime: 1000 * 60 * 30,  // 30 mim
+        gcTime: 1000 * 60 * 60 * 24,    // 24 hours
+        retry: false,
     });
 };
 
@@ -117,6 +117,7 @@ export const useFetchStatuses = () => {
         queryFn: api.fetchStatuses,
         gcTime: Infinity,
         staleTime: 1000 * 60 * 60 * 24,
+        retry: 3,
     });
 };
 

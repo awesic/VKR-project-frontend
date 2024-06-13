@@ -62,7 +62,7 @@ const register = async (userData: Student | Teacher | User) => {
 
 const login = async (userData: LoginFields) => {
     const response = await axiosPrivate.post(LOGIN_URL, userData);
-
+    console.log(response);
     localStorage.setItem("access", response.data.access);
     localStorage.setItem("refresh", response.data.refresh);
 

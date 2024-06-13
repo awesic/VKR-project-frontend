@@ -1,7 +1,7 @@
 node_modules
 old_version
 package-lock.json
-.env
+.env*
 dist
 /test-results/
 /playwright-report/

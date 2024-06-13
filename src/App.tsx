@@ -73,7 +73,7 @@ export const App: React.FC = () => {
                             />
                         </Route>
                         <Route
-                            path={"admin"}
+                            path={"admins"}
                             element={
                                 <PrivateRoute allowedRoles={[Roles.admin]} />
                             }>

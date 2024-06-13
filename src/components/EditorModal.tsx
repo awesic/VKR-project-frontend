@@ -1,12 +1,8 @@
 import { Button } from "@/components/ui/button";
-// import { Switch } from "@/components/ui/switch";
 import { FC, useRef } from "react";
-// import { EditorContext } from "@/components/EditorContext";
-// import { EditorContextType } from "@/data/types/editorTypes";
 import { Editor } from "@tinymce/tinymce-react";
 import { Student, Teacher } from "@/data/types/UsersTypes";
 import { Download } from "lucide-react";
-// import { asBlob } from "html-docx-js-typescript";
 import { asBlob } from "html-docx-ts";
 import { saveAs } from "file-saver";
 import { convertImagesToBase64 } from "@/data/helpers";
@@ -22,16 +18,6 @@ interface Props {
 }
 
 const EditorModal: FC<Props> = ({ user, student }) => {
-    // const { initEditor, editorInstanceRef } = useContext(
-    //     EditorContext
-    // ) as EditorContextType;
-    // const editorRef = useRef(false);
-
-    // const handleClick = async () => {
-    //     const data = await editorInstanceRef.current?.save();
-    //     console.log(data);
-    // };
-
     const editorRef = useRef<any>(null);
 
     const { data, isPending: isPendingGet } = useGetForgejoFileContent({
@@ -86,12 +72,6 @@ const EditorModal: FC<Props> = ({ user, student }) => {
 
     return (
         <>
-            {/* <div id="editorjs" /> */}
-            {/* <Switch
-                checked={useDarkMode}
-                onCheckedChange={handleTheme}
-                color="grey"
-            /> */}
             <Editor
                 apiKey={EDITOR_APIKEY}
                 onInit={(evt, editor) => {

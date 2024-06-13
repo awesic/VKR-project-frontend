@@ -13,8 +13,7 @@ export const QUERY_KEY = {
 };
 
 export const BACKEND_DOMAIN = import.meta.env.VITE_API;
-export const FORGEJO_LINK =
-    "https://forgejo-production.up.railway.app/user/login";
+export const FORGEJO_LINK = import.meta.env.VITE_FORGEJO_LINK;
 export const EXTENDED_ADM_LINK = import.meta.env.VITE_EXTEND_ADM_LINK;
 export const EDITOR_APIKEY = import.meta.env.VITE_EDITOR_APIKEY;
 
@@ -22,9 +21,9 @@ export const STUDENT_EDITOR_LINK = "/student/edit-docs";
 export const TEACHER_CHOOSE_STUD_LINK = "/teacher/choose-student";
 export const TEACHER_STUD_LIST_LINK = "/teacher/students-list";
 export const TEACHER_STUD_DOC_LINK = "/teacher/student-doc";
-export const ADMIN_STUD_LIST_LINK = "/admin/students-list";
-export const ADMIN_TEACH_LIST_LINK = "/admin/teachers-list";
-export const ADMIN_STUD_DOC_LINK = "/admin/student-doc";
+export const ADMIN_STUD_LIST_LINK = "/admins/students-list";
+export const ADMIN_TEACH_LIST_LINK = "/admins/teachers-list";
+export const ADMIN_STUD_DOC_LINK = "/admins/student-doc";
 
 // import Header from "@editorjs/header";
 // import Header from "editorjs-header-with-alignment";

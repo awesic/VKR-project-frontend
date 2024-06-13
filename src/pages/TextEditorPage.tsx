@@ -6,6 +6,7 @@ import EditorModal from "@/components/EditorModal";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { ADMIN_STUD_LIST_LINK, TEACHER_STUD_LIST_LINK } from "@/data/types/constants";
 
 function TextEditorPage() {
     const { data: user } = useGetUserInfo();
@@ -33,9 +34,15 @@ function TextEditorPage() {
                                     variant={"outline"}
                                     className="mb-2"
                                     onClick={() =>
-                                        navigate(
-                                            `/${user.role.toLowerCase()}/students-list`
-                                        )
+                                        {
+                                            if(user.role.toLowerCase() === "admin") {
+                                                navigate(ADMIN_STUD_LIST_LINK);
+                                            } else if (user.role.toLowerCase() === "teacher") {
+                                                navigate(TEACHER_STUD_LIST_LINK);
+                                            } else {
+                                                navigate("/home");
+                                            }
+                                        }
                                     }>
                                     Назад
                                 </Button>
